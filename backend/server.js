@@ -13,37 +13,25 @@ dotenv.config();
 
 const app = express();
 
-/* =========================
-   Middleware
-========================= */
-
+/* Middleware */
 app.use(cors());
 app.use(express.json());
 
-/* =========================
-   Routes
-========================= */
-
+/* Routes */
 app.use("/api", authRoutes);
 app.use("/api", employeeRoutes);
 app.use("/api", shiftRoutes);
 app.use("/api", attendanceRoutes);
 app.use("/api", leaveRoutes);
 
-/* =========================
-   Test Route
-========================= */
-
+/* Test Route */
 app.get("/", (req, res) => {
   res.status(200).json({
     message: "Backend API Running..."
   });
 });
 
-/* =========================
-   MongoDB Connection
-========================= */
-
+/* MongoDB */
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
@@ -53,10 +41,7 @@ mongoose
     console.error("Database Error:", error);
   });
 
-/* =========================
-   Local Development
-========================= */
-
+/* Local Development */
 if (process.env.NODE_ENV !== "production") {
   const PORT = process.env.PORT || 5000;
 
@@ -65,8 +50,5 @@ if (process.env.NODE_ENV !== "production") {
   });
 }
 
-/* =========================
-   Vercel
-========================= */
-
+/* Vercel */
 export default app;
