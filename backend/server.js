@@ -14,39 +14,10 @@ dotenv.config();
 const app = express();
 
 /* =========================
-   CORS
+   Middleware
 ========================= */
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "http://localhost:5174",
-  
-];
-
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      // Allow requests without origin
-      // such as Postman/server-to-server requests
-      if (!origin) {
-        return callback(null, true);
-      }
-
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-
-      return callback(new Error("Not allowed by CORS"));
-    },
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
-
-/* =========================
-   Body Parser
-========================= */
-
+app.use(cors());
 app.use(express.json());
 
 /* =========================
@@ -65,7 +36,7 @@ app.use("/api", leaveRoutes);
 
 app.get("/", (req, res) => {
   res.status(200).json({
-    message: "Employee Management Backend API is running"
+    message: "Backend API Running..."
   });
 });
 
@@ -86,16 +57,16 @@ mongoose
    Local Development
 ========================= */
 
-const PORT = process.env.PORT || 5000;
-
 if (process.env.NODE_ENV !== "production") {
+  const PORT = process.env.PORT || 5000;
+
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });
 }
 
 /* =========================
-   Export for Vercel
+   Vercel
 ========================= */
 
 export default app;
