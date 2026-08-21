@@ -31,11 +31,11 @@ function App() {
           element={token ? <Layout /> : <Navigate to="/login" />}
         >
 
-          <Route index element={<Dashboard />} />
-          <Route path="employees" element={<Employees />} />
-          <Route path="shifts" element={<Shifts />} />
-          <Route path="attendance" element={<Attendance />} />
-          <Route path="leaves" element={<Leaves />} />
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/employees" element={<Employees />} />
+          <Route path="/shifts" element={<Shifts />} />
+          <Route path="/attendance" element={<Attendance />} />
+          <Route path="/leaves" element={<Leaves />} />
 
         </Route>
 
