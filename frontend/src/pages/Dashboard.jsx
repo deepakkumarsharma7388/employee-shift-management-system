@@ -19,17 +19,17 @@ function Dashboard() {
       };
 
       const emp = await axios.get(
-        "http://localhost:5000/api/employees",
+        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/employees",
         { headers }
       );
 
       const shifts = await axios.get(
-        "http://localhost:5000/api/shifts",
+        "http://employee-shift-management-system-fntbqct0g.vercel.app/api/shifts",
         { headers }
       );
 
       const leaves = await axios.get(
-        "http://localhost:5000/api/leaves",
+        "http://employee-shift-management-system-fntbqct0g.vercel.app/api/leaves",
         { headers }
       );
 

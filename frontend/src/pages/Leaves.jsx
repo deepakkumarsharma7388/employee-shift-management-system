@@ -23,7 +23,7 @@ function Leaves() {
   const fetchEmployees = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/employees",
+        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/employees",
         { headers }
       );
 
@@ -37,7 +37,7 @@ function Leaves() {
   const fetchLeaves = async (employeeList = employees) => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/leaves",
+        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/leaves",
         { headers }
       );
 
@@ -70,7 +70,7 @@ function Leaves() {
   useEffect(() => {
     const loadData = async () => {
       const res = await axios.get(
-        "http://localhost:5000/api/employees",
+        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/employees",
         { headers }
       );
 
@@ -93,7 +93,7 @@ function Leaves() {
 
     try {
       await axios.post(
-        "http://localhost:5000/api/leaves",
+        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/leaves",
         form,
         { headers }
       );
@@ -117,7 +117,7 @@ function Leaves() {
   const approveLeave = async (id) => {
     try {
       await axios.put(
-        `http://localhost:5000/api/leaves/${id}/approve`,
+        `https://employee-shift-management-system-fntbqct0g.vercel.app/api/leaves/${id}/approve`,
         {},
         { headers }
       );
@@ -133,7 +133,7 @@ function Leaves() {
   const rejectLeave = async (id) => {
     try {
       await axios.put(
-        `http://localhost:5000/api/leaves/${id}/reject`,
+        `https://employee-shift-management-system-fntbqct0g.vercel.app/api/leaves/${id}/reject`,
         {},
         { headers }
       );

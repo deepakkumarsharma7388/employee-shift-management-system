@@ -13,7 +13,7 @@ function Login() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/login",
+        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/login",
         { email, password }
       );
 

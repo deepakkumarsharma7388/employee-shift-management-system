@@ -24,7 +24,7 @@ function Register() {
 
     try {
       await axios.post(
-        "http://localhost:5000/api/register",
+        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/register",
         form
       );
 

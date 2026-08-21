@@ -24,7 +24,7 @@ function Shifts() {
   const fetchEmployees = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/employees",
+        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/employees",
         { headers }
       );
 
@@ -38,7 +38,7 @@ function Shifts() {
   const fetchShifts = async (employeeList = employees) => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/shifts",
+        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/shifts",
         { headers }
       );
 
@@ -71,7 +71,7 @@ function Shifts() {
   useEffect(() => {
     const loadData = async () => {
       const res = await axios.get(
-        "http://localhost:5000/api/employees",
+        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/employees",
         { headers }
       );
 
@@ -94,7 +94,7 @@ function Shifts() {
 
     try {
       await axios.post(
-        "http://localhost:5000/api/shifts",
+        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/shifts",
         form,
         { headers }
       );

@@ -17,7 +17,7 @@ function Attendance() {
   const fetchEmployees = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/employees",
+        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/employees",
         { headers }
       );
 
@@ -33,7 +33,7 @@ function Attendance() {
   ) => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/attendance",
+        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/attendance",
         { headers }
       );
 
@@ -69,7 +69,7 @@ function Attendance() {
   useEffect(() => {
     const loadData = async () => {
       const res = await axios.get(
-        "http://localhost:5000/api/employees",
+        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/employees",
         { headers }
       );
 
@@ -83,7 +83,7 @@ function Attendance() {
   const checkIn = async () => {
     try {
       await axios.post(
-        "http://localhost:5000/api/attendance/checkin",
+        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/attendance/checkin",
         { employee_id },
         { headers }
       );
@@ -100,7 +100,7 @@ function Attendance() {
   const checkOut = async () => {
     try {
       await axios.post(
-        "http://localhost:5000/api/attendance/checkout",
+        "http://employee-shift-management-system-fntbqct0g.vercel.app/api/attendance/checkout",
         { employee_id },
         { headers }
       );

@@ -21,7 +21,7 @@ function Employees() {
   const fetchEmployees = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/employees",
+        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/employees",
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -52,7 +52,7 @@ function Employees() {
 
     try {
       await axios.post(
-        "http://localhost:5000/api/employees",
+        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/employees",
         form,
         {
           headers: {
@@ -84,7 +84,7 @@ function Employees() {
   const deleteEmployee = async (id) => {
     try {
       await axios.delete(
-        `http://localhost:5000/api/employees/${id}`,
+        `https://employee-shift-management-system-fntbqct0g.vercel.app/api/employees/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`
