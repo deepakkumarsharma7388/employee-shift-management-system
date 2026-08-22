@@ -24,12 +24,12 @@ function Dashboard() {
       );
 
       const shifts = await axios.get(
-        "http://employee-shift-management-system-fntbqct0g.vercel.app/api/shifts",
+        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/shifts",
         { headers }
       );
 
       const leaves = await axios.get(
-        "http://employee-shift-management-system-fntbqct0g.vercel.app/api/leaves",
+        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/leaves",
         { headers }
       );
 

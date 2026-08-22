@@ -100,7 +100,7 @@ function Attendance() {
   const checkOut = async () => {
     try {
       await axios.post(
-        "http://employee-shift-management-system-fntbqct0g.vercel.app/api/attendance/checkout",
+        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/attendance/checkout",
         { employee_id },
         { headers }
       );

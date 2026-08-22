@@ -13,8 +13,15 @@ dotenv.config();
 
 const app = express();
 
-/* Middleware */
-app.use(cors());
+/* CORS */
+app.use(
+  cors({
+    origin: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
 app.use(express.json());
 
 /* Routes */
@@ -27,7 +34,7 @@ app.use("/api", leaveRoutes);
 /* Test Route */
 app.get("/", (req, res) => {
   res.status(200).json({
-    message: "Backend API Running..."
+    message: "Backend API Running...",
   });
 });
 
