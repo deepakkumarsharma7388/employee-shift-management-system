@@ -16,6 +16,10 @@ function Leaves() {
     reason: ""
   });
 
+  // Working Vercel Backend URL
+  const API_URL =
+    "https://employee-shift-management-system-blond.vercel.app";
+
   const headers = {
     Authorization: `Bearer ${token}`
   };
@@ -23,7 +27,7 @@ function Leaves() {
   const fetchEmployees = async () => {
     try {
       const res = await axios.get(
-        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/employees",
+        `${API_URL}/api/employees`,
         { headers }
       );
 
@@ -37,7 +41,7 @@ function Leaves() {
   const fetchLeaves = async (employeeList = employees) => {
     try {
       const res = await axios.get(
-        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/leaves",
+        `${API_URL}/api/leaves`,
         { headers }
       );
 
@@ -47,7 +51,8 @@ function Leaves() {
       if (role === "employee") {
         const currentUser = employeeList.find(
           (emp) =>
-            emp.name?.toLowerCase() === name?.toLowerCase()
+            emp.name?.toLowerCase() ===
+            name?.toLowerCase()
         );
 
         if (currentUser) {
@@ -69,13 +74,18 @@ function Leaves() {
 
   useEffect(() => {
     const loadData = async () => {
-      const res = await axios.get(
-        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/employees",
-        { headers }
-      );
+      try {
+        const res = await axios.get(
+          `${API_URL}/api/employees`,
+          { headers }
+        );
 
-      setEmployees(res.data);
-      fetchLeaves(res.data);
+        setEmployees(res.data);
+        fetchLeaves(res.data);
+
+      } catch (error) {
+        console.log(error);
+      }
     };
 
     loadData();
@@ -93,7 +103,7 @@ function Leaves() {
 
     try {
       await axios.post(
-        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/leaves",
+        `${API_URL}/api/leaves`,
         form,
         { headers }
       );
@@ -110,6 +120,7 @@ function Leaves() {
       alert("✅ Leave Applied");
 
     } catch (error) {
+      console.log(error);
       alert("❌ Failed");
     }
   };
@@ -117,15 +128,17 @@ function Leaves() {
   const approveLeave = async (id) => {
     try {
       await axios.put(
-        `https://employee-shift-management-system-fntbqct0g.vercel.app/api/leaves/${id}/approve`,
+        `${API_URL}/api/leaves/${id}/approve`,
         {},
         { headers }
       );
 
       fetchLeaves();
+
       alert("✅ Leave Approved");
 
     } catch (error) {
+      console.log(error);
       alert("❌ Failed");
     }
   };
@@ -133,15 +146,17 @@ function Leaves() {
   const rejectLeave = async (id) => {
     try {
       await axios.put(
-        `https://employee-shift-management-system-fntbqct0g.vercel.app/api/leaves/${id}/reject`,
+        `${API_URL}/api/leaves/${id}/reject`,
         {},
         { headers }
       );
 
       fetchLeaves();
+
       alert("❌ Leave Rejected");
 
     } catch (error) {
+      console.log(error);
       alert("❌ Failed");
     }
   };
@@ -216,7 +231,10 @@ function Leaves() {
           onChange={handleChange}
         />
 
-        <button className="bg-blue-600 hover:bg-blue-700 text-white rounded px-4 py-3">
+        <button
+          type="submit"
+          className="bg-blue-600 hover:bg-blue-700 text-white rounded px-4 py-3"
+        >
           Apply Leave
         </button>
       </form>
@@ -225,28 +243,47 @@ function Leaves() {
       <div className="bg-white p-6 rounded-xl shadow overflow-x-auto">
 
         <table className="w-full">
+
           <thead>
             <tr className="border-b text-left">
+
               <th className="pb-3">
                 Employee
               </th>
-              <th>From</th>
-              <th>To</th>
-              <th>Reason</th>
-              <th>Status</th>
+
+              <th>
+                From
+              </th>
+
+              <th>
+                To
+              </th>
+
+              <th>
+                Reason
+              </th>
+
+              <th>
+                Status
+              </th>
 
               {role !== "employee" && (
-                <th>Action</th>
+                <th>
+                  Action
+                </th>
               )}
+
             </tr>
           </thead>
 
           <tbody>
+
             {leaves.map((leave) => (
               <tr
                 key={leave._id}
                 className="border-b"
               >
+
                 <td className="py-3">
                   {getEmployeeName(
                     leave.employee_id
@@ -267,16 +304,16 @@ function Leaves() {
                   )}
                 </td>
 
-                <td>{leave.reason}</td>
+                <td>
+                  {leave.reason}
+                </td>
 
                 <td>
                   <span
                     className={
-                      leave.status ===
-                      "approved"
+                      leave.status === "approved"
                         ? "text-green-600 font-semibold"
-                        : leave.status ===
-                          "rejected"
+                        : leave.status === "rejected"
                         ? "text-red-500 font-semibold"
                         : "text-yellow-500 font-semibold"
                     }
@@ -315,6 +352,7 @@ function Leaves() {
 
               </tr>
             ))}
+
           </tbody>
 
         </table>

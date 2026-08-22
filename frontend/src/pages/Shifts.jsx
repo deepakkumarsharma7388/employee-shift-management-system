@@ -17,6 +17,9 @@ function Shifts() {
     branch: ""
   });
 
+  const API_URL =
+    "https://employee-shift-management-system-blond.vercel.app";
+
   const headers = {
     Authorization: `Bearer ${token}`
   };
@@ -24,21 +27,21 @@ function Shifts() {
   const fetchEmployees = async () => {
     try {
       const res = await axios.get(
-        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/employees",
+        `${API_URL}/api/employees`,
         { headers }
       );
 
       setEmployees(res.data);
 
     } catch (error) {
-      console.log(error);
+      console.log("Employees Error:", error);
     }
   };
 
   const fetchShifts = async (employeeList = employees) => {
     try {
       const res = await axios.get(
-        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/shifts",
+        `${API_URL}/api/shifts`,
         { headers }
       );
 
@@ -48,7 +51,8 @@ function Shifts() {
       if (role === "employee") {
         const currentUser = employeeList.find(
           (emp) =>
-            emp.name?.toLowerCase() === name?.toLowerCase()
+            emp.name?.toLowerCase() ===
+            name?.toLowerCase()
         );
 
         if (currentUser) {
@@ -64,19 +68,25 @@ function Shifts() {
       setShifts(data);
 
     } catch (error) {
-      console.log(error);
+      console.log("Shifts Error:", error);
     }
   };
 
   useEffect(() => {
     const loadData = async () => {
-      const res = await axios.get(
-        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/employees",
-        { headers }
-      );
+      try {
+        const res = await axios.get(
+          `${API_URL}/api/employees`,
+          { headers }
+        );
 
-      setEmployees(res.data);
-      fetchShifts(res.data);
+        setEmployees(res.data);
+
+        fetchShifts(res.data);
+
+      } catch (error) {
+        console.log("Load Data Error:", error);
+      }
     };
 
     loadData();
@@ -94,7 +104,7 @@ function Shifts() {
 
     try {
       await axios.post(
-        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/shifts",
+        `${API_URL}/api/shifts`,
         form,
         { headers }
       );
@@ -112,7 +122,11 @@ function Shifts() {
       alert("✅ Shift Created");
 
     } catch (error) {
-      alert("❌ Failed");
+      console.log("Create Shift Error:", error);
+      alert(
+        error.response?.data?.message ||
+        "❌ Failed"
+      );
     }
   };
 
@@ -149,6 +163,7 @@ function Shifts() {
             className="border p-3 rounded"
             value={form.employee_id}
             onChange={handleChange}
+            required
           >
             <option value="">
               Select Employee
@@ -170,6 +185,7 @@ function Shifts() {
             className="border p-3 rounded"
             value={form.shift_date}
             onChange={handleChange}
+            required
           />
 
           <input
@@ -178,6 +194,7 @@ function Shifts() {
             className="border p-3 rounded"
             value={form.start_time}
             onChange={handleChange}
+            required
           />
 
           <input
@@ -186,6 +203,7 @@ function Shifts() {
             className="border p-3 rounded"
             value={form.end_time}
             onChange={handleChange}
+            required
           />
 
           <input
@@ -194,9 +212,13 @@ function Shifts() {
             className="border p-3 rounded"
             value={form.branch}
             onChange={handleChange}
+            required
           />
 
-          <button className="bg-green-600 hover:bg-green-700 text-white rounded px-4 py-3">
+          <button
+            type="submit"
+            className="bg-green-600 hover:bg-green-700 text-white rounded px-4 py-3"
+          >
             Create Shift
           </button>
         </form>
@@ -206,24 +228,41 @@ function Shifts() {
       <div className="bg-white rounded-xl shadow p-6 overflow-x-auto">
 
         <table className="w-full">
+
           <thead>
             <tr className="border-b text-left">
+
               <th className="pb-3">
                 Employee
               </th>
-              <th>Date</th>
-              <th>Start</th>
-              <th>End</th>
-              <th>Branch</th>
+
+              <th>
+                Date
+              </th>
+
+              <th>
+                Start
+              </th>
+
+              <th>
+                End
+              </th>
+
+              <th>
+                Branch
+              </th>
+
             </tr>
           </thead>
 
           <tbody>
+
             {shifts.map((shift) => (
               <tr
                 key={shift._id}
                 className="border-b"
               >
+
                 <td className="py-3">
                   {getEmployeeName(
                     shift.employee_id
@@ -248,8 +287,10 @@ function Shifts() {
                 <td>
                   {shift.branch}
                 </td>
+
               </tr>
             ))}
+
           </tbody>
 
         </table>

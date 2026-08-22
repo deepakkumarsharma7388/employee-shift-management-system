@@ -8,13 +8,19 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const API_URL =
+    "https://employee-shift-management-system-blond.vercel.app";
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
       const res = await axios.post(
-        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/login",
-        { email, password }
+        `${API_URL}/api/login`,
+        {
+          email,
+          password
+        }
       );
 
       localStorage.setItem("token", res.data.token);
@@ -23,8 +29,13 @@ function Login() {
 
       navigate("/");
 
-    } catch {
-      alert("Invalid Credentials");
+    } catch (error) {
+      console.log("Login Error:", error);
+
+      alert(
+        error.response?.data?.message ||
+        "Invalid Credentials"
+      );
     }
   };
 
@@ -35,6 +46,7 @@ function Login() {
         onSubmit={handleLogin}
         className="bg-white p-8 rounded-2xl w-96 shadow-xl"
       >
+
         <h1 className="text-3xl font-bold text-center mb-6">
           Login
         </h1>
@@ -43,26 +55,38 @@ function Login() {
           type="email"
           placeholder="Email"
           className="w-full border p-3 rounded mb-4"
+          value={email}
           onChange={(e) => setEmail(e.target.value)}
+          required
         />
 
         <input
           type="password"
           placeholder="Password"
           className="w-full border p-3 rounded mb-4"
+          value={password}
           onChange={(e) => setPassword(e.target.value)}
+          required
         />
 
-        <button className="w-full bg-blue-600 text-white py-3 rounded">
+        <button
+          type="submit"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded"
+        >
           Login
         </button>
 
         <p className="mt-4 text-center">
           No account?
-          <Link to="/register" className="text-blue-600 ml-1">
+
+          <Link
+            to="/register"
+            className="text-blue-600 ml-1"
+          >
             Register
           </Link>
         </p>
+
       </form>
 
     </div>

@@ -9,38 +9,40 @@ function Dashboard() {
   const [stats, setStats] = useState({
     employees: 0,
     shifts: 0,
-    leaves: 0
+    leaves: 0,
   });
+
+  const API_URL =
+    "https://employee-shift-management-system-blond.vercel.app/api";
 
   const fetchStats = async () => {
     try {
       const headers = {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       };
 
       const emp = await axios.get(
-        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/employees",
+        `${API_URL}/employees`,
         { headers }
       );
 
       const shifts = await axios.get(
-        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/shifts",
+        `${API_URL}/shifts`,
         { headers }
       );
 
       const leaves = await axios.get(
-        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/leaves",
+        `${API_URL}/leaves`,
         { headers }
       );
 
       setStats({
         employees: emp.data.length,
         shifts: shifts.data.length,
-        leaves: leaves.data.length
+        leaves: leaves.data.length,
       });
-
     } catch (error) {
-      console.log(error);
+      console.log("Dashboard Error:", error);
     }
   };
 

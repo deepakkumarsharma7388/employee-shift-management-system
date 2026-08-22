@@ -11,20 +11,22 @@ function Attendance() {
   const [records, setRecords] = useState([]);
 
   const headers = {
-    Authorization: `Bearer ${token}`
+    Authorization: `Bearer ${token}`,
   };
+
+  const API_URL =
+    "https://employee-shift-management-system-blond.vercel.app/api";
 
   const fetchEmployees = async () => {
     try {
       const res = await axios.get(
-        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/employees",
+        `${API_URL}/employees`,
         { headers }
       );
 
       setEmployees(res.data);
-
     } catch (error) {
-      console.log(error);
+      console.log("Fetch Employees Error:", error);
     }
   };
 
@@ -33,7 +35,7 @@ function Attendance() {
   ) => {
     try {
       const res = await axios.get(
-        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/attendance",
+        `${API_URL}/attendance`,
         { headers }
       );
 
@@ -60,30 +62,39 @@ function Attendance() {
       }
 
       setRecords(data);
-
     } catch (error) {
-      console.log(error);
+      console.log("Fetch Attendance Error:", error);
     }
   };
 
   useEffect(() => {
     const loadData = async () => {
-      const res = await axios.get(
-        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/employees",
-        { headers }
-      );
+      try {
+        const res = await axios.get(
+          `${API_URL}/employees`,
+          { headers }
+        );
 
-      setEmployees(res.data);
-      fetchAttendance(res.data);
+        setEmployees(res.data);
+
+        fetchAttendance(res.data);
+      } catch (error) {
+        console.log("Load Data Error:", error);
+      }
     };
 
     loadData();
   }, []);
 
   const checkIn = async () => {
+    if (!employee_id) {
+      alert("Please select an employee");
+      return;
+    }
+
     try {
       await axios.post(
-        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/attendance/checkin",
+        `${API_URL}/attendance/checkin`,
         { employee_id },
         { headers }
       );
@@ -91,16 +102,23 @@ function Attendance() {
       fetchAttendance();
 
       alert("✅ Checked In");
-
     } catch (error) {
-      alert("❌ Failed");
+      console.log("Check In Error:", error);
+      alert(
+        error.response?.data?.message || "❌ Failed to Check In"
+      );
     }
   };
 
   const checkOut = async () => {
+    if (!employee_id) {
+      alert("Please select an employee");
+      return;
+    }
+
     try {
       await axios.post(
-        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/attendance/checkout",
+        `${API_URL}/attendance/checkout`,
         { employee_id },
         { headers }
       );
@@ -108,9 +126,11 @@ function Attendance() {
       fetchAttendance();
 
       alert("✅ Checked Out");
-
     } catch (error) {
-      alert("❌ Failed");
+      console.log("Check Out Error:", error);
+      alert(
+        error.response?.data?.message || "❌ Failed to Check Out"
+      );
     }
   };
 
@@ -181,7 +201,6 @@ function Attendance() {
         >
           Check Out
         </button>
-
       </div>
 
       {/* History Table */}
@@ -193,6 +212,7 @@ function Attendance() {
               <th className="pb-3">
                 Employee
               </th>
+
               <th>Date</th>
               <th>Check In</th>
               <th>Check Out</th>
@@ -235,11 +255,9 @@ function Attendance() {
                 <td>
                   {item.working_hours}
                 </td>
-
               </tr>
             ))}
           </tbody>
-
         </table>
 
       </div>

@@ -18,10 +18,13 @@ function Employees() {
     manager_id: ""
   });
 
+  const API_URL =
+    "https://employee-shift-management-system-blond.vercel.app";
+
   const fetchEmployees = async () => {
     try {
       const res = await axios.get(
-        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/employees",
+        `${API_URL}/api/employees`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -52,7 +55,7 @@ function Employees() {
 
     try {
       await axios.post(
-        "https://employee-shift-management-system-fntbqct0g.vercel.app/api/employees",
+        `${API_URL}/api/employees`,
         form,
         {
           headers: {
@@ -77,6 +80,7 @@ function Employees() {
       alert("✅ Employee Added");
 
     } catch (error) {
+      console.log(error);
       alert("❌ Failed");
     }
   };
@@ -84,7 +88,7 @@ function Employees() {
   const deleteEmployee = async (id) => {
     try {
       await axios.delete(
-        `https://employee-shift-management-system-fntbqct0g.vercel.app/api/employees/${id}`,
+        `${API_URL}/api/employees/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -97,6 +101,7 @@ function Employees() {
       alert("🗑 Employee Deleted");
 
     } catch (error) {
+      console.log(error);
       alert("❌ Delete Failed");
     }
   };
@@ -191,11 +196,19 @@ function Employees() {
             value={form.status}
             onChange={handleChange}
           >
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
+            <option value="active">
+              Active
+            </option>
+
+            <option value="inactive">
+              Inactive
+            </option>
           </select>
 
-          <button className="bg-green-600 hover:bg-green-700 text-white rounded px-4 py-3">
+          <button
+            type="submit"
+            className="bg-green-600 hover:bg-green-700 text-white rounded px-4 py-3"
+          >
             Add Employee
           </button>
         </form>
@@ -205,24 +218,54 @@ function Employees() {
       <div className="bg-white rounded-xl shadow p-6 overflow-x-auto">
 
         <table className="w-full">
+
           <thead>
             <tr className="border-b text-left">
-              <th className="pb-3">Name</th>
-              <th>Email</th>
-              <th>Department</th>
-              <th>Status</th>
 
-              {role === "admin" && <th>Action</th>}
+              <th className="pb-3">
+                Name
+              </th>
+
+              <th>
+                Email
+              </th>
+
+              <th>
+                Department
+              </th>
+
+              <th>
+                Status
+              </th>
+
+              {role === "admin" && (
+                <th>
+                  Action
+                </th>
+              )}
+
             </tr>
           </thead>
 
           <tbody>
-            {employees.map((emp) => (
-              <tr key={emp._id} className="border-b">
 
-                <td className="py-3">{emp.name}</td>
-                <td>{emp.email}</td>
-                <td>{emp.department}</td>
+            {employees.map((emp) => (
+              <tr
+                key={emp._id}
+                className="border-b"
+              >
+
+                <td className="py-3">
+                  {emp.name}
+                </td>
+
+                <td>
+                  {emp.email}
+                </td>
+
+                <td>
+                  {emp.department}
+                </td>
 
                 <td>
                   <span
@@ -239,7 +282,9 @@ function Employees() {
                 {role === "admin" && (
                   <td>
                     <button
-                      onClick={() => deleteEmployee(emp._id)}
+                      onClick={() =>
+                        deleteEmployee(emp._id)
+                      }
                       className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
                     >
                       Delete
@@ -249,6 +294,7 @@ function Employees() {
 
               </tr>
             ))}
+
           </tbody>
 
         </table>
