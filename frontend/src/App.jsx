@@ -2,7 +2,7 @@ import {
   BrowserRouter,
   Routes,
   Route,
-  Navigate
+  Navigate,
 } from "react-router-dom";
 
 import Login from "./pages/Login";
@@ -12,9 +12,9 @@ import Dashboard from "./pages/Dashboard";
 import Employees from "./pages/Employees";
 import Shifts from "./pages/Shifts";
 import Attendance from "./pages/Attendance";
+import Leaves from "./pages/Leaves";
 
 import Layout from "./components/Layout";
-import Leaves from "./pages/Leaves";
 
 function App() {
   const token = localStorage.getItem("token");
@@ -23,19 +23,68 @@ function App() {
     <BrowserRouter>
       <Routes>
 
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        {/* =========================
+            PUBLIC ROUTES
+        ========================= */}
+
+        <Route
+          path="/login"
+          element={<Login />}
+        />
+
+        <Route
+          path="/register"
+          element={<Register />}
+        />
+
+
+        {/* =========================
+            PROTECTED ROUTES
+        ========================= */}
 
         <Route
           path="/"
-          element={token ? <Layout /> : <Navigate to="/login" />}
+          element={
+            token ? (
+              <Layout />
+            ) : (
+              <Navigate
+                to="/login"
+                replace
+              />
+            )
+          }
         >
 
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/employees" element={<Employees />} />
-          <Route path="/shifts" element={<Shifts />} />
-          <Route path="/attendance" element={<Attendance />} />
-          <Route path="/leaves" element={<Leaves />} />
+          {/* Dashboard */}
+          <Route
+            index
+            element={<Dashboard />}
+          />
+
+          {/* Employees */}
+          <Route
+            path="employees"
+            element={<Employees />}
+          />
+
+          {/* Shifts */}
+          <Route
+            path="shifts"
+            element={<Shifts />}
+          />
+
+          {/* Attendance */}
+          <Route
+            path="attendance"
+            element={<Attendance />}
+          />
+
+          {/* Leaves */}
+          <Route
+            path="leaves"
+            element={<Leaves />}
+          />
 
         </Route>
 

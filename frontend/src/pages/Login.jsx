@@ -19,15 +19,22 @@ function Login() {
         `${API_URL}/api/login`,
         {
           email,
-          password
+          password,
         }
       );
 
+      // Save authentication data
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("role", res.data.user.role);
       localStorage.setItem("name", res.data.user.name);
 
-      navigate("/");
+      console.log("Login Successful");
+      console.log("Token:", res.data.token);
+      console.log("Role:", res.data.user.role);
+      console.log("Name:", res.data.user.name);
+
+      // Dashboard route is "/"
+      navigate("/", { replace: true });
 
     } catch (error) {
       console.log("Login Error:", error);
