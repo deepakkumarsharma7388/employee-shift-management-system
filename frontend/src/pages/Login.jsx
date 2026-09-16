@@ -23,21 +23,22 @@ function Login() {
         }
       );
 
-      // Save authentication data
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("role", res.data.user.role);
-      localStorage.setItem("name", res.data.user.name);
+      // Check successful response
+      if (res.status === 200 && res.data.token) {
+        // Save authentication data
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("role", res.data.user.role);
+        localStorage.setItem("name", res.data.user.name);
 
-      console.log("Login Successful");
-      console.log("Token:", res.data.token);
-      console.log("Role:", res.data.user.role);
-      console.log("Name:", res.data.user.name);
+        console.log("Login Successful");
+        console.log("Role:", res.data.user.role);
+        console.log("Name:", res.data.user.name);
 
-      // Dashboard route is "/"
-      navigate("/", { replace: true });
-
+        // Go to Dashboard
+        navigate("/", { replace: true });
+      }
     } catch (error) {
-      console.log("Login Error:", error);
+      console.error("Login Error:", error);
 
       alert(
         error.response?.data?.message ||

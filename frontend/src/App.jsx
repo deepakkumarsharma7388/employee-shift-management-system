@@ -16,9 +16,25 @@ import Leaves from "./pages/Leaves";
 
 import Layout from "./components/Layout";
 
-function App() {
+/* =====================================================
+   PROTECTED ROUTE
+===================================================== */
+
+function ProtectedRoute() {
   const token = localStorage.getItem("token");
 
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return <Layout />;
+}
+
+/* =====================================================
+   APP
+===================================================== */
+
+function App() {
   return (
     <BrowserRouter>
       <Routes>
@@ -44,16 +60,7 @@ function App() {
 
         <Route
           path="/"
-          element={
-            token ? (
-              <Layout />
-            ) : (
-              <Navigate
-                to="/login"
-                replace
-              />
-            )
-          }
+          element={<ProtectedRoute />}
         >
 
           {/* Dashboard */}
@@ -87,6 +94,16 @@ function App() {
           />
 
         </Route>
+
+
+        {/* =========================
+            UNKNOWN ROUTES
+        ========================= */}
+
+        <Route
+          path="*"
+          element={<Navigate to="/" replace />}
+        />
 
       </Routes>
     </BrowserRouter>
